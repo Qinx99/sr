@@ -1,5 +1,4 @@
 let stream = null,
-  audio = null,
   mixedStream = null,
   chunks = [],
   recorder = null;
@@ -12,14 +11,6 @@ async function setupStream() {
   try {
     stream = await navigator.mediaDevices.getDisplayMedia({
       video: true,
-    });
-
-    audio = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44100,
-      },
     });
 
     setupVideoFeedback();
@@ -41,10 +32,9 @@ function setupVideoFeedback() {
 async function startRecording() {
   await setupStream();
 
-  if (stream && audio) {
+  if (stream) {
     mixedStream = new MediaStream([
       ...stream.getTracks(),
-      ...audio.getTracks(),
     ]);
     recorder = new MediaRecorder(mixedStream);
     recorder.ondataavailable = handleDataAvailable;
@@ -90,7 +80,6 @@ function handleStop(e) {
   };
 
   stream.getTracks().forEach((track) => track.stop());
-  audio.getTracks().forEach((track) => track.stop());
 
   console.log('Recording stopped');
 }
