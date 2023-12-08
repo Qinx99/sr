@@ -72,11 +72,11 @@ function handleDataAvailable(e) {
 }
 
 function handleStop(e) {
-  const blob = new Blob(chunks, { type: 'video/mp4' });
+  const blob = new Blob(chunks, { type: 'video/mkv' });
   chunks = [];
 
   downloadButton.href = URL.createObjectURL(blob);
-  downloadButton.download = 'video.mp4';
+  downloadButton.download = 'video.mkv';
   downloadButton.disabled = false;
 
   recordedVideo.src = URL.createObjectURL(blob);
